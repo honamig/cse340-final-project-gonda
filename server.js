@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import baseRoute from "./routes/baseRoute.js";
 import pool from "./database/connection.js";
+import session from "express-session";
+import authRoute from "./routes/authRoute.js";
 
 dotenv.config();
 
@@ -11,9 +13,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 60 * 2
+  }
+}));
+
 app.set("view engine", "ejs");
 
 app.use("/", baseRoute);
+app.use("/", authRoute);
 
 const PORT = process.env.PORT || 3000;
 
