@@ -24,6 +24,11 @@ app.use(session({
   }
 }));
 
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
 app.set("view engine", "ejs");
 
 app.use("/", baseRoute);

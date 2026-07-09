@@ -36,4 +36,44 @@ async function registerAccount(req, res) {
   res.redirect("/login");
 }
 
-export { buildRegister, registerAccount };
+async function buildLogin(req, res) {
+  res.render("pages/login", { title: "Login" });
+}
+
+async function loginAccount(req, res) {
+  const { email, password } = req.body;
+
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    return res.render("pages/login", {
+      title: "Login",
+      error: "Invalid email or password."
+    });
+  }
+
+  const passwordMatches = await bcrypt.compare(password, user.password_hash);
+
+  if (!passwordMatches) {
+    return res.render("pages/login", {
+      title: "Login",
+      error: "Invalid email or password."
+    });
+  }
+
+  req.session.user = {
+    id: user.user_id,
+    firstName: user.first_name,
+    role: user.role
+  };
+
+  res.redirect("/");
+}
+
+function logoutAccount(req, res) {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+}
+
+export { buildRegister, registerAccount, buildLogin, loginAccount, logoutAccount };
