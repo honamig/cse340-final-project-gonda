@@ -14,10 +14,11 @@
             <a href="/">Home</a>
             <a href="/about">About</a>
             <% if (user) { %>
-            <span>Hello, <%= user.firstName %></span>
-            <form action="/logout" method="POST" style="display:inline;">
-                <button type="submit">Logout</button>
-            </form>
+                <span>Hello, <%= user.firstName %></span>
+                <a href="/account">My Account</a>
+                <form action="/logout" method="POST" style="display:inline;">
+                    <button type="submit">Logout</button>
+                </form>
             <% } else { %>
             <a href="/login">Login</a>
             <a href="/register">Register</a>
