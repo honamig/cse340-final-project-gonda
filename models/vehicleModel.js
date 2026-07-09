@@ -56,4 +56,43 @@ async function getVehiclesByCategory(categoryName, sort) {
   }
 }
 
-export { getFeaturedVehicles, getAllCategories, getVehiclesByCategory };
+async function getVehicleById(vehicleId) {
+  try {
+    const result = await pool.query(
+      `SELECT v.vehicle_id, v.make, v.model, v.year, v.price, v.mileage,
+              v.description, v.availability_status, c.name AS category_name
+       FROM dealership.vehicles v
+       LEFT JOIN dealership.categories c ON c.category_id = v.category_id
+       WHERE v.vehicle_id = $1`,
+      [vehicleId]
+    );
+    return result.rows[0];
+  } catch (error) {
+    console.error("getVehicleById error:", error);
+    return null;
+  }
+}
+
+async function getVehicleImages(vehicleId) {
+  try {
+    const result = await pool.query(
+      `SELECT image_id, image_url, is_primary
+       FROM dealership.vehicle_images
+       WHERE vehicle_id = $1
+       ORDER BY is_primary DESC, image_id ASC`,
+      [vehicleId]
+    );
+    return result.rows;
+  } catch (error) {
+    console.error("getVehicleImages error:", error);
+    return [];
+  }
+}
+
+export {
+  getFeaturedVehicles,
+  getAllCategories,
+  getVehiclesByCategory,
+  getVehicleById,
+  getVehicleImages
+};

@@ -6,6 +6,7 @@ import session from "express-session";
 import authRoute from "./routes/authRoute.js";
 import accountRoute from "./routes/accountRoute.js";
 import inventoryRoute from "./routes/inventoryRoute.js";
+import vehicleRoute from "./routes/vehicleRoute.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use("/", baseRoute);
 app.use("/", authRoute);
 app.use("/", accountRoute);
 app.use("/", inventoryRoute);
+app.use("/", vehicleRoute);
 
 const PORT = process.env.PORT || 3000;
 

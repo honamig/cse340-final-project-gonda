@@ -1,4 +1,11 @@
-import { getFeaturedVehicles, getAllCategories, getVehiclesByCategory } from "../models/vehicleModel.js";
+import {
+  getFeaturedVehicles,
+  getAllCategories,
+  getVehiclesByCategory,
+  getVehicleById,
+  getVehicleImages
+} from "../models/vehicleModel.js";
+
 async function buildHome(req, res) {
   const featuredVehicles = await getFeaturedVehicles();
   res.render("pages/home", { title: "Home", featuredVehicles });
@@ -23,4 +30,21 @@ async function buildByCategory(req, res) {
   });
 }
 
-export { buildHome, buildInventoryIndex, buildByCategory };
+async function buildVehicleDetail(req, res) {
+  const vehicleId = req.params.id;
+  const vehicle = await getVehicleById(vehicleId);
+
+  if (!vehicle) {
+    return res.status(404).send("Vehicle not found.");
+  }
+
+  const images = await getVehicleImages(vehicleId);
+
+  res.render("pages/vehicle", {
+    title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
+    vehicle,
+    images
+  });
+}
+
+export { buildHome, buildInventoryIndex, buildByCategory, buildVehicleDetail };
