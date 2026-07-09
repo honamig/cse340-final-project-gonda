@@ -1,0 +1,26 @@
+<%- include('../../partials/header') %>
+
+<h2><%= categoryName %></h2>
+
+<div class="sort-links">
+  <a href="?sort=price_asc">Price: Low to High</a>
+  <a href="?sort=price_desc">Price: High to Low</a>
+  <a href="?sort=year_desc">Newest First</a>
+  <a href="?sort=year_asc">Oldest First</a>
+</div>
+
+<% if (vehicles.length === 0) { %>
+  <p>No vehicles found in this category.</p>
+<% } else { %>
+  <div class="vehicle-grid">
+    <% vehicles.forEach(function(vehicle) { %>
+      <div class="vehicle-card">
+        <img src="<%= vehicle.image_url || 'https://placehold.co/400x300?text=No+Image' %>" alt="<%= vehicle.make %> <%= vehicle.model %>">
+        <h3><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h3>
+        <p>$<%= vehicle.price %> — <%= vehicle.mileage %> miles</p>
+      </div>
+    <% }); %>
+  </div>
+<% } %>
+
+<%- include('../../partials/footer') %>

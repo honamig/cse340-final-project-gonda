@@ -1,6 +1,16 @@
 <%- include('../partials/header') %>
 
 <h2>Welcome</h2>
-<p>Home page for my final project</p>
+<p>Featured Vehicles</p>
+
+<div class="vehicle-grid">
+  <% featuredVehicles.forEach(function(vehicle) { %>
+    <div class="vehicle-card">
+      <img src="<%= vehicle.image_url || 'https://placehold.co/400x300?text=No+Image' %>" alt="<%= vehicle.make %> <%= vehicle.model %>">
+      <h3><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h3>
+      <p>$<%= vehicle.price %></p>
+    </div>
+  <% }); %>
+</div>
 
 <%- include('../partials/footer') %>

@@ -1,5 +1,6 @@
 import express from "express";
-import { buildHome, buildAbout } from "../controllers/baseController.js";
+import { buildAbout } from "../controllers/baseController.js";
+import { buildHome } from "../controllers/vehicleController.js";
 
 const router = express.Router();
 

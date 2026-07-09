@@ -5,6 +5,7 @@ import pool from "./database/connection.js";
 import session from "express-session";
 import authRoute from "./routes/authRoute.js";
 import accountRoute from "./routes/accountRoute.js";
+import inventoryRoute from "./routes/inventoryRoute.js";
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.set("view engine", "ejs");
 app.use("/", baseRoute);
 app.use("/", authRoute);
 app.use("/", accountRoute);
+app.use("/", inventoryRoute);
 
 const PORT = process.env.PORT || 3000;
 

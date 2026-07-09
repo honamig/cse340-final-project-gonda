@@ -1,0 +1,14 @@
+<%- include('../../partials/header') %>
+
+<h2>Browse Vehicles</h2>
+
+<ul class="category-list">
+  <% categories.forEach(function(category) { %>
+    <li>
+      <a href="/inventory/<%= category.name %>"><%= category.name %></a>
+      <p><%= category.description %></p>
+    </li>
+  <% }); %>
+</ul>
+
+<%- include('../../partials/footer') %>
