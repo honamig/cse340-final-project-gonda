@@ -6,8 +6,8 @@
 <div class="vehicle-grid">
   <% featuredVehicles.forEach(function(vehicle) { %>
     <div class="vehicle-card">
-      <a href="/vehicle/<%= vehicle.vehicle_id %>">
-        <img src="<%= vehicle.image_url || 'https://placehold.co/400x300?text=No+Image' %>" alt="<%= vehicle.make %> <%= vehicle.model %>">
+      <a href="/vehicle/<%= vehicle.vehicleId %>">
+        <img src="<%= vehicle.imageUrl || 'https://placehold.co/400x300?text=No+Image' %>" alt="<%= vehicle.make %> <%= vehicle.model %>">
         <h3><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h3>
         <p>$<%= vehicle.price %></p>
       </a>

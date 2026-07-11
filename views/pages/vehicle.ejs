@@ -7,7 +7,7 @@
     <img src="https://placehold.co/600x450?text=No+Image" alt="No image available">
   <% } else { %>
     <% images.forEach(function(image) { %>
-      <img src="<%= image.image_url %>" alt="<%= vehicle.make %> <%= vehicle.model %>">
+      <img src="<%= image.imageUrl %>" alt="<%= vehicle.make %> <%= vehicle.model %>">
     <% }); %>
   <% } %>
 </div>
@@ -15,8 +15,8 @@
 <table class="vehicle-specs">
   <tr><th>Price</th><td>$<%= vehicle.price %></td></tr>
   <tr><th>Mileage</th><td><%= vehicle.mileage %> miles</td></tr>
-  <tr><th>Category</th><td><%= vehicle.category_name || "Uncategorized" %></td></tr>
-  <tr><th>Availability</th><td><%= vehicle.availability_status %></td></tr>
+  <tr><th>Category</th><td><%= vehicle.categoryName || "Uncategorized" %></td></tr>
+  <tr><th>Availability</th><td><%= vehicle.availabilityStatus %></td></tr>
 </table>
 
 <p><%= vehicle.description %></p>

@@ -10,7 +10,15 @@ async function getFeaturedVehicles() {
        ORDER BY v.created_at DESC
        LIMIT 3`
     );
-    return result.rows;
+
+    return result.rows.map((row) => ({
+      vehicleId: row.vehicle_id,
+      make: row.make,
+      model: row.model,
+      year: row.year,
+      price: row.price,
+      imageUrl: row.image_url
+    }));
   } catch (error) {
     console.error("getFeaturedVehicles error:", error);
     return [];
@@ -22,7 +30,12 @@ async function getAllCategories() {
     const result = await pool.query(
       "SELECT category_id, name, description FROM dealership.categories ORDER BY name"
     );
-    return result.rows;
+
+    return result.rows.map((row) => ({
+      categoryId: row.category_id,
+      name: row.name,
+      description: row.description
+    }));
   } catch (error) {
     console.error("getAllCategories error:", error);
     return [];
@@ -49,7 +62,16 @@ async function getVehiclesByCategory(categoryName, sort) {
        ORDER BY ${orderBy}`,
       [categoryName]
     );
-    return result.rows;
+
+    return result.rows.map((row) => ({
+      vehicleId: row.vehicle_id,
+      make: row.make,
+      model: row.model,
+      year: row.year,
+      price: row.price,
+      mileage: row.mileage,
+      imageUrl: row.image_url
+    }));
   } catch (error) {
     console.error("getVehiclesByCategory error:", error);
     return [];
@@ -66,7 +88,21 @@ async function getVehicleById(vehicleId) {
        WHERE v.vehicle_id = $1`,
       [vehicleId]
     );
-    return result.rows[0];
+
+    const row = result.rows[0];
+    if (!row) return null;
+
+    return {
+      vehicleId: row.vehicle_id,
+      make: row.make,
+      model: row.model,
+      year: row.year,
+      price: row.price,
+      mileage: row.mileage,
+      description: row.description,
+      availabilityStatus: row.availability_status,
+      categoryName: row.category_name
+    };
   } catch (error) {
     console.error("getVehicleById error:", error);
     return null;
@@ -82,7 +118,12 @@ async function getVehicleImages(vehicleId) {
        ORDER BY is_primary DESC, image_id ASC`,
       [vehicleId]
     );
-    return result.rows;
+
+    return result.rows.map((row) => ({
+      imageId: row.image_id,
+      imageUrl: row.image_url,
+      isPrimary: row.is_primary
+    }));
   } catch (error) {
     console.error("getVehicleImages error:", error);
     return [];

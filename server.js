@@ -7,6 +7,7 @@ import authRoute from "./routes/authRoute.js";
 import accountRoute from "./routes/accountRoute.js";
 import inventoryRoute from "./routes/inventoryRoute.js";
 import vehicleRoute from "./routes/vehicleRoute.js";
+import contactRoute from "./routes/contactRoute.js";
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ app.use("/", authRoute);
 app.use("/", accountRoute);
 app.use("/", inventoryRoute);
 app.use("/", vehicleRoute);
+app.use("/", contactRoute);
 
 const PORT = process.env.PORT || 3000;
 

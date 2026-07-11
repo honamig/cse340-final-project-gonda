@@ -36,7 +36,7 @@ async function registerAccount(req, res) {
   res.redirect("/login");
 }
 
-async function buildLogin(req, res) {
+function buildLogin(req, res) {
   res.render("pages/login", { title: "Login" });
 }
 
@@ -52,7 +52,7 @@ async function loginAccount(req, res) {
     });
   }
 
-  const passwordMatches = await bcrypt.compare(password, user.password_hash);
+  const passwordMatches = await bcrypt.compare(password, user.passwordHash);
 
   if (!passwordMatches) {
     return res.render("pages/login", {
@@ -62,8 +62,8 @@ async function loginAccount(req, res) {
   }
 
   req.session.user = {
-    id: user.user_id,
-    firstName: user.first_name,
+    id: user.userId,
+    firstName: user.firstName,
     role: user.role
   };
 

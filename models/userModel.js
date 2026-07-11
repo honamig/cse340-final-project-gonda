@@ -6,7 +6,19 @@ async function getUserByEmail(email) {
       "SELECT * FROM dealership.users WHERE email = $1",
       [email]
     );
-    return result.rows[0];
+
+    const row = result.rows[0];
+    if (!row) return null;
+
+    return {
+      userId: row.user_id,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      email: row.email,
+      passwordHash: row.password_hash,
+      role: row.role,
+      createdAt: row.created_at
+    };
   } catch (error) {
     console.error("getUserByEmail error:", error);
     return null;
@@ -21,7 +33,17 @@ async function createUser({ firstName, lastName, email, passwordHash, role }) {
        RETURNING user_id, first_name, last_name, email, role`,
       [firstName, lastName, email, passwordHash, role]
     );
-    return result.rows[0];
+
+    const row = result.rows[0];
+    if (!row) return null;
+
+    return {
+      userId: row.user_id,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      email: row.email,
+      role: row.role
+    };
   } catch (error) {
     console.error("createUser error:", error);
     return null;
