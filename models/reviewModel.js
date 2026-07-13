@@ -98,10 +98,39 @@ async function deleteReview(reviewId) {
   }
 }
 
+async function getAllReviews() {
+  try {
+    const result = await pool.query(
+      `SELECT r.review_id, r.rating, r.comment, r.is_flagged, r.created_at,
+              u.first_name AS reviewer_first_name,
+              v.make, v.model
+       FROM dealership.reviews r
+       JOIN dealership.users u ON u.user_id = r.user_id
+       JOIN dealership.vehicles v ON v.vehicle_id = r.vehicle_id
+       ORDER BY r.created_at DESC`
+    );
+
+    return result.rows.map((row) => ({
+      reviewId: row.review_id,
+      rating: row.rating,
+      comment: row.comment,
+      isFlagged: row.is_flagged,
+      createdAt: row.created_at,
+      reviewerFirstName: row.reviewer_first_name,
+      vehicleMake: row.make,
+      vehicleModel: row.model
+    }));
+  } catch (error) {
+    console.error("getAllReviews error:", error);
+    return [];
+  }
+}
+
 export {
   getReviewsByVehicleId,
   getReviewById,
   createReview,
   updateReview,
-  deleteReview
+  deleteReview,
+  getAllReviews
 };

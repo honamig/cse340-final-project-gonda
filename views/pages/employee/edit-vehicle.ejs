@@ -1,0 +1,26 @@
+<%- include('../../partials/header') %>
+
+<h2>Edit Vehicle</h2>
+
+<% if (messages.error.length > 0) { %>
+  <p class="error"><%= messages.error[0] %></p>
+<% } %>
+
+<form action="/employee/vehicles/<%= vehicle.vehicleId %>/edit" method="POST">
+  <label for="price">Price</label>
+  <input type="number" step="0.01" id="price" name="price" value="<%= vehicle.price %>" required>
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="4" required><%= vehicle.description %></textarea>
+
+  <label for="availabilityStatus">Availability</label>
+  <select id="availabilityStatus" name="availabilityStatus" required>
+    <option value="available" <%= vehicle.availabilityStatus === "available" ? "selected" : "" %>>Available</option>
+    <option value="pending" <%= vehicle.availabilityStatus === "pending" ? "selected" : "" %>>Pending</option>
+    <option value="sold" <%= vehicle.availabilityStatus === "sold" ? "selected" : "" %>>Sold</option>
+  </select>
+
+  <button type="submit">Save Changes</button>
+</form>
+
+<%- include('../../partials/footer') %>

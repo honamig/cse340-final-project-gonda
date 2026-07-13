@@ -130,10 +130,51 @@ async function getVehicleImages(vehicleId) {
   }
 }
 
+async function getAllVehiclesAdmin() {
+  try {
+    const result = await pool.query(
+      `SELECT vehicle_id, make, model, year, price, availability_status
+       FROM dealership.vehicles
+       ORDER BY vehicle_id`
+    );
+
+    return result.rows.map((row) => ({
+      vehicleId: row.vehicle_id,
+      make: row.make,
+      model: row.model,
+      year: row.year,
+      price: row.price,
+      availabilityStatus: row.availability_status
+    }));
+  } catch (error) {
+    console.error("getAllVehiclesAdmin error:", error);
+    return [];
+  }
+}
+
+async function updateVehicle(vehicleId, { price, description, availabilityStatus }) {
+  try {
+    const result = await pool.query(
+      `UPDATE dealership.vehicles
+       SET price = $1, description = $2, availability_status = $3
+       WHERE vehicle_id = $4
+       RETURNING vehicle_id`,
+      [price, description, availabilityStatus, vehicleId]
+    );
+
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error("updateVehicle error:", error);
+    return null;
+  }
+}
+
 export {
   getFeaturedVehicles,
   getAllCategories,
   getVehiclesByCategory,
   getVehicleById,
-  getVehicleImages
+  getVehicleImages,
+  getAllVehiclesAdmin,
+  updateVehicle
 };

@@ -1,0 +1,43 @@
+<%- include('../../partials/header') %>
+
+<h2>Employee Dashboard</h2>
+
+<% if (messages.error.length > 0) { %>
+  <p class="error"><%= messages.error[0] %></p>
+<% } %>
+<% if (messages.success.length > 0) { %>
+  <p class="success"><%= messages.success[0] %></p>
+<% } %>
+
+<h3>Vehicles</h3>
+<table class="vehicle-specs">
+  <tr><th>Vehicle</th><th>Price</th><th>Status</th><th></th></tr>
+  <% vehicles.forEach(function(vehicle) { %>
+    <tr>
+      <td><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></td>
+      <td>$<%= vehicle.price %></td>
+      <td><%= vehicle.availabilityStatus %></td>
+      <td><a href="/employee/vehicles/<%= vehicle.vehicleId %>/edit">Edit</a></td>
+    </tr>
+  <% }); %>
+</table>
+
+<h3>Reviews</h3>
+<table class="vehicle-specs">
+  <tr><th>Vehicle</th><th>Reviewer</th><th>Rating</th><th>Comment</th><th></th></tr>
+  <% reviews.forEach(function(review) { %>
+    <tr>
+      <td><%= review.vehicleMake %> <%= review.vehicleModel %></td>
+      <td><%= review.reviewerFirstName %></td>
+      <td><%= review.rating %>/5</td>
+      <td><%= review.comment %></td>
+      <td>
+        <form action="/employee/reviews/<%= review.reviewId %>/delete" method="POST" style="display:inline;">
+          <button type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  <% }); %>
+</table>
+
+<%- include('../../partials/footer') %>
