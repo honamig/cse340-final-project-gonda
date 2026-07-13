@@ -13,6 +13,7 @@
       <th>Vehicle</th>
       <th>Service</th>
       <th>Status</th>
+      <th>Notes</th>
       <th>Submitted</th>
     </tr>
     <% serviceRequests.forEach(function(request) { %>
@@ -26,6 +27,7 @@
         </td>
         <td><%= request.serviceType %></td>
         <td><%= request.status %></td>
+        <td><%= request.employeeNotes || "—" %></td>
         <td><%= request.createdAt.toLocaleDateString() %></td>
       </tr>
     <% }); %>

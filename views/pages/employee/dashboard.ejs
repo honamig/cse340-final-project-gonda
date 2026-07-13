@@ -40,4 +40,43 @@
   <% }); %>
 </table>
 
+<h3>Service Requests</h3>
+<table class="vehicle-specs">
+  <tr><th>Customer</th><th>Vehicle</th><th>Service</th><th>Status</th><th></th></tr>
+  <% serviceRequests.forEach(function(request) { %>
+    <tr>
+      <td><%= request.customerFirstName %> <%= request.customerLastName %></td>
+      <td>
+        <% if (request.vehicleMake) { %>
+          <%= request.vehicleYear %> <%= request.vehicleMake %> <%= request.vehicleModel %>
+        <% } else { %>
+          (N/A)
+        <% } %>
+      </td>
+      <td><%= request.serviceType %></td>
+      <td><%= request.status %></td>
+      <td><a href="/employee/service-requests/<%= request.requestId %>/edit">Update</a></td>
+    </tr>
+  <% }); %>
+</table>
+
+<h3>Contact Messages</h3>
+<table class="vehicle-specs">
+  <tr><th>From</th><th>Subject</th><th>Message</th><th>Status</th><th>Reply</th></tr>
+  <% contactMessages.forEach(function(msg) { %>
+    <tr>
+      <td><%= msg.name %> (<%= msg.email %>)</td>
+      <td><%= msg.subject %></td>
+      <td><%= msg.message %></td>
+      <td><%= msg.status %></td>
+      <td>
+        <form action="/employee/contact-messages/<%= msg.messageId %>/reply" method="POST">
+          <textarea name="replyText" rows="2" placeholder="Write a reply..."><%= msg.replyText || "" %></textarea>
+          <button type="submit">Send Reply</button>
+        </form>
+      </td>
+    </tr>
+  <% }); %>
+</table>
+
 <%- include('../../partials/footer') %>

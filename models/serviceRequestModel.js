@@ -51,4 +51,84 @@ async function getServiceRequestsByUserId(userId) {
   }
 }
 
-export { createServiceRequest, getServiceRequestsByUserId };
+async function getAllServiceRequests() {
+  try {
+    const result = await pool.query(
+      `SELECT sr.request_id, sr.service_type, sr.description, sr.status,
+              sr.employee_notes, sr.created_at,
+              u.first_name AS customer_first_name, u.last_name AS customer_last_name,
+              v.make, v.model, v.year
+       FROM dealership.service_requests sr
+       JOIN dealership.users u ON u.user_id = sr.user_id
+       LEFT JOIN dealership.vehicles v ON v.vehicle_id = sr.vehicle_id
+       ORDER BY sr.created_at DESC`
+    );
+
+    return result.rows.map((row) => ({
+      requestId: row.request_id,
+      serviceType: row.service_type,
+      description: row.description,
+      status: row.status,
+      employeeNotes: row.employee_notes,
+      createdAt: row.created_at,
+      customerFirstName: row.customer_first_name,
+      customerLastName: row.customer_last_name,
+      vehicleMake: row.make,
+      vehicleModel: row.model,
+      vehicleYear: row.year
+    }));
+  } catch (error) {
+    console.error("getAllServiceRequests error:", error);
+    return [];
+  }
+}
+
+async function getServiceRequestById(requestId) {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM dealership.service_requests WHERE request_id = $1",
+      [requestId]
+    );
+
+    const row = result.rows[0];
+    if (!row) return null;
+
+    return {
+      requestId: row.request_id,
+      userId: row.user_id,
+      vehicleId: row.vehicle_id,
+      serviceType: row.service_type,
+      description: row.description,
+      status: row.status,
+      employeeNotes: row.employee_notes
+    };
+  } catch (error) {
+    console.error("getServiceRequestById error:", error);
+    return null;
+  }
+}
+
+async function updateServiceRequestStatus(requestId, { status, employeeNotes }) {
+  try {
+    const result = await pool.query(
+      `UPDATE dealership.service_requests
+       SET status = $1, employee_notes = $2, updated_at = NOW()
+       WHERE request_id = $3
+       RETURNING request_id`,
+      [status, employeeNotes, requestId]
+    );
+
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error("updateServiceRequestStatus error:", error);
+    return null;
+  }
+}
+
+export {
+  createServiceRequest,
+  getServiceRequestsByUserId,
+  getAllServiceRequests,
+  getServiceRequestById,
+  updateServiceRequestStatus
+};

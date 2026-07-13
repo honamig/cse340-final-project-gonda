@@ -1,0 +1,23 @@
+<%- include('../../partials/header') %>
+
+<h2>Update Service Request</h2>
+
+<% if (messages.error.length > 0) { %>
+  <p class="error"><%= messages.error[0] %></p>
+<% } %>
+
+<form action="/employee/service-requests/<%= request.requestId %>/edit" method="POST">
+  <label for="status">Status</label>
+  <select id="status" name="status" required>
+    <option value="submitted" <%= request.status === "submitted" ? "selected" : "" %>>Submitted</option>
+    <option value="in_progress" <%= request.status === "in_progress" ? "selected" : "" %>>In Progress</option>
+    <option value="completed" <%= request.status === "completed" ? "selected" : "" %>>Completed</option>
+  </select>
+
+  <label for="employeeNotes">Notes</label>
+  <textarea id="employeeNotes" name="employeeNotes" rows="4"><%= request.employeeNotes || "" %></textarea>
+
+  <button type="submit">Save</button>
+</form>
+
+<%- include('../../partials/footer') %>
