@@ -60,8 +60,26 @@
 
     <button type="submit">Submit Review</button>
   </form>
+
+  <h3>Request Service for This Vehicle</h3>
+  <form action="/vehicle/<%= vehicle.vehicleId %>/service-requests" method="POST">
+    <label for="serviceType">Service Type</label>
+    <select id="serviceType" name="serviceType" required>
+      <option value="">Select a service...</option>
+      <option value="Oil Change">Oil Change</option>
+      <option value="Inspection">Inspection</option>
+      <option value="Tire Rotation">Tire Rotation</option>
+      <option value="Brake Service">Brake Service</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="description">Additional Details (optional)</label>
+    <textarea id="description" name="description" rows="3"></textarea>
+
+    <button type="submit">Submit Request</button>
+  </form>
 <% } else { %>
-  <p><a href="/login">Log in</a> to write a review</p>
+  <p><a href="/login">Log in</a> to write a review or request service.</p>
 <% } %>
 
 <%- include('../partials/footer') %>

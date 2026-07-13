@@ -2,6 +2,34 @@
 
 <h2>My Account</h2>
 <p>Welcome, <%= user.firstName %>!</p>
-<p>This page is for reviews and service request history.</p>
+
+<h3>Service Request History</h3>
+
+<% if (serviceRequests.length === 0) { %>
+  <p>You have not submitted any service requests yet.</p>
+<% } else { %>
+  <table class="vehicle-specs">
+    <tr>
+      <th>Vehicle</th>
+      <th>Service</th>
+      <th>Status</th>
+      <th>Submitted</th>
+    </tr>
+    <% serviceRequests.forEach(function(request) { %>
+      <tr>
+        <td>
+          <% if (request.vehicleMake) { %>
+            <%= request.vehicleYear %> <%= request.vehicleMake %> <%= request.vehicleModel %>
+          <% } else { %>
+            (Vehicle no longer available)
+          <% } %>
+        </td>
+        <td><%= request.serviceType %></td>
+        <td><%= request.status %></td>
+        <td><%= request.createdAt.toLocaleDateString() %></td>
+      </tr>
+    <% }); %>
+  </table>
+<% } %>
 
 <%- include('../partials/footer') %>
