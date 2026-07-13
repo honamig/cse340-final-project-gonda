@@ -10,10 +10,8 @@ async function registerAccount(req, res) {
 
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
-    return res.render("pages/register", {
-      title: "Register",
-      error: "An account with this email already exists."
-    });
+    req.flash("error", "An account with this email already exists.");
+    return res.redirect("/register");
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
@@ -27,12 +25,11 @@ async function registerAccount(req, res) {
   });
 
   if (!newUser) {
-    return res.render("pages/register", {
-      title: "Register",
-      error: "Something went wrong. Please try again."
-    });
+    req.flash("error", "Something went wrong. Please try again.");
+    return res.redirect("/register");
   }
 
+  req.flash("success", "Account created! Please log in.");
   res.redirect("/login");
 }
 
@@ -46,19 +43,15 @@ async function loginAccount(req, res) {
   const user = await getUserByEmail(email);
 
   if (!user) {
-    return res.render("pages/login", {
-      title: "Login",
-      error: "Invalid email or password."
-    });
+    req.flash("error", "Invalid email or password.");
+    return res.redirect("/login");
   }
 
   const passwordMatches = await bcrypt.compare(password, user.passwordHash);
 
   if (!passwordMatches) {
-    return res.render("pages/login", {
-      title: "Login",
-      error: "Invalid email or password."
-    });
+    req.flash("error", "Invalid email or password.");
+    return res.redirect("/login");
   }
 
   req.session.user = {

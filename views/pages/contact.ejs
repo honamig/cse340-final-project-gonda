@@ -2,11 +2,11 @@
 
 <h2>Contact Us</h2>
 
-<% if (error) { %>
-  <p class="error"><%= error %></p>
+<% if (messages.error.length > 0) { %>
+  <p class="error"><%= messages.error[0] %></p>
 <% } %>
-<% if (success) { %>
-  <p class="success"><%= success %></p>
+<% if (messages.success.length > 0) { %>
+  <p class="success"><%= messages.success[0] %></p>
 <% } %>
 
 <form action="/contact" method="POST">

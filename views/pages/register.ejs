@@ -2,8 +2,11 @@
 
 <h2>Register</h2>
 
-<% if (typeof error !== 'undefined' && error) { %>
-  <p class="error"><%= error %></p>
+<% if (messages.error.length > 0) { %>
+  <p class="error"><%= messages.error[0] %></p>
+<% } %>
+<% if (messages.success.length > 0) { %>
+  <p class="success"><%= messages.success[0] %></p>
 <% } %>
 
 <form action="/register" method="POST">

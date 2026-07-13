@@ -8,6 +8,7 @@ import accountRoute from "./routes/accountRoute.js";
 import inventoryRoute from "./routes/inventoryRoute.js";
 import vehicleRoute from "./routes/vehicleRoute.js";
 import contactRoute from "./routes/contactRoute.js";
+import flash from "connect-flash";
 
 dotenv.config();
 
@@ -28,8 +29,14 @@ app.use(session({
   }
 }));
 
+app.use(flash());
+
 app.use((req, res, next) => {
   res.locals.user = req.session.user;
+  res.locals.messages = {
+    error: req.flash("error"),
+    success: req.flash("success")
+  };
   next();
 });
 
