@@ -21,4 +21,47 @@
 
 <p><%= vehicle.description %></p>
 
+<h3>Reviews</h3>
+
+<% if (messages.error.length > 0) { %>
+  <p class="error"><%= messages.error[0] %></p>
+<% } %>
+<% if (messages.success.length > 0) { %>
+  <p class="success"><%= messages.success[0] %></p>
+<% } %>
+
+<% if (reviews.length === 0) { %>
+  <p>No reviews yet.</p>
+<% } else { %>
+  <ul class="review-list">
+    <% reviews.forEach(function(review) { %>
+      <li>
+        <strong><%= review.reviewerFirstName %></strong> — <%= review.rating %>/5
+        <p><%= review.comment %></p>
+        <% if (user && user.id === review.userId) { %>
+          <a href="/reviews/<%= review.reviewId %>/edit">Edit</a>
+          <form action="/reviews/<%= review.reviewId %>/delete" method="POST" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        <% } %>
+      </li>
+    <% }); %>
+  </ul>
+<% } %>
+
+<% if (user) { %>
+  <h3>Write a Review</h3>
+  <form action="/vehicle/<%= vehicle.vehicleId %>/reviews" method="POST">
+    <label for="rating">Rating (1-5)</label>
+    <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+    <label for="comment">Comment</label>
+    <textarea id="comment" name="comment" rows="4" required></textarea>
+
+    <button type="submit">Submit Review</button>
+  </form>
+<% } else { %>
+  <p><a href="/login">Log in</a> to write a review</p>
+<% } %>
+
 <%- include('../partials/footer') %>

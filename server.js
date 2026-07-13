@@ -9,6 +9,7 @@ import inventoryRoute from "./routes/inventoryRoute.js";
 import vehicleRoute from "./routes/vehicleRoute.js";
 import contactRoute from "./routes/contactRoute.js";
 import flash from "connect-flash";
+import reviewRoute from "./routes/reviewRoute.js";
 
 dotenv.config();
 
@@ -48,6 +49,7 @@ app.use("/", accountRoute);
 app.use("/", inventoryRoute);
 app.use("/", vehicleRoute);
 app.use("/", contactRoute);
+app.use("/", reviewRoute);
 
 const PORT = process.env.PORT || 3000;
 

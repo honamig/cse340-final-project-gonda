@@ -1,3 +1,4 @@
+import { getReviewsByVehicleId } from "../models/reviewModel.js";
 import {
   getFeaturedVehicles,
   getAllCategories,
@@ -39,11 +40,13 @@ async function buildVehicleDetail(req, res) {
   }
 
   const images = await getVehicleImages(vehicleId);
+  const reviews = await getReviewsByVehicleId(vehicleId);
 
   res.render("pages/vehicle", {
     title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
     vehicle,
-    images
+    images,
+    reviews
   });
 }
 
