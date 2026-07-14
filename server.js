@@ -12,6 +12,7 @@ import flash from "connect-flash";
 import reviewRoute from "./routes/reviewRoute.js";
 import serviceRequestRoute from "./routes/serviceRequestRoute.js";
 import employeeRoute from "./routes/employeeRoute.js";
+import ownerRoute from "./routes/ownerRoute.js";
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ app.use("/", contactRoute);
 app.use("/", reviewRoute);
 app.use("/", serviceRequestRoute);
 app.use("/", employeeRoute);
+app.use("/", ownerRoute);
 
 const PORT = process.env.PORT || 3000;
 

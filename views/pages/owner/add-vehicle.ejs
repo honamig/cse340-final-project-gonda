@@ -1,0 +1,38 @@
+<%- include('../../partials/header') %>
+
+<h2>Add Vehicle</h2>
+
+<% if (messages.error.length > 0) { %>
+  <p class="error"><%= messages.error[0] %></p>
+<% } %>
+
+<form action="/owner/vehicles/add" method="POST">
+  <label for="categoryId">Category</label>
+  <select id="categoryId" name="categoryId">
+    <% categories.forEach(function(category) { %>
+      <option value="<%= category.categoryId %>"><%= category.name %></option>
+    <% }); %>
+  </select>
+
+  <label for="make">Make</label>
+  <input type="text" id="make" name="make" required>
+
+  <label for="model">Model</label>
+  <input type="text" id="model" name="model" required>
+
+  <label for="year">Year</label>
+  <input type="number" id="year" name="year" required>
+
+  <label for="price">Price</label>
+  <input type="number" step="0.01" id="price" name="price" required>
+
+  <label for="mileage">Mileage</label>
+  <input type="number" id="mileage" name="mileage">
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="3"></textarea>
+
+  <button type="submit">Add Vehicle</button>
+</form>
+
+<%- include('../../partials/footer') %>

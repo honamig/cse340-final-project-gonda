@@ -1,0 +1,19 @@
+<%- include('../../partials/header') %>
+
+<h2>Add Category</h2>
+
+<% if (messages.error.length > 0) { %>
+  <p class="error"><%= messages.error[0] %></p>
+<% } %>
+
+<form action="/owner/categories/add" method="POST">
+  <label for="name">Name</label>
+  <input type="text" id="name" name="name" required>
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="3"></textarea>
+
+  <button type="submit">Add Category</button>
+</form>
+
+<%- include('../../partials/footer') %>

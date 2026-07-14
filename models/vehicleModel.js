@@ -169,6 +169,32 @@ async function updateVehicle(vehicleId, { price, description, availabilityStatus
   }
 }
 
+async function createVehicle({ categoryId, make, model, year, price, mileage, description }) {
+  try {
+    const result = await pool.query(
+      `INSERT INTO dealership.vehicles (category_id, make, model, year, price, mileage, description)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING vehicle_id`,
+      [categoryId || null, make, model, year, price, mileage, description]
+    );
+
+    return result.rows[0] || null;
+  } catch (error) {
+    console.error("createVehicle error:", error);
+    return null;
+  }
+}
+
+async function deleteVehicle(vehicleId) {
+  try {
+    await pool.query("DELETE FROM dealership.vehicles WHERE vehicle_id = $1", [vehicleId]);
+    return true;
+  } catch (error) {
+    console.error("deleteVehicle error:", error);
+    return false;
+  }
+}
+
 export {
   getFeaturedVehicles,
   getAllCategories,
@@ -176,5 +202,7 @@ export {
   getVehicleById,
   getVehicleImages,
   getAllVehiclesAdmin,
-  updateVehicle
+  updateVehicle,
+  createVehicle,
+  deleteVehicle
 };

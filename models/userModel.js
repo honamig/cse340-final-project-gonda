@@ -50,4 +50,23 @@ async function createUser({ firstName, lastName, email, passwordHash, role }) {
   }
 }
 
-export { getUserByEmail, createUser };
+async function getAllStaff() {
+  try {
+    const result = await pool.query(
+      "SELECT user_id, first_name, last_name, email, role FROM dealership.users WHERE role IN ('employee', 'owner') ORDER BY role, first_name"
+    );
+
+    return result.rows.map((row) => ({
+      userId: row.user_id,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      email: row.email,
+      role: row.role
+    }));
+  } catch (error) {
+    console.error("getAllStaff error:", error);
+    return [];
+  }
+}
+
+export { getUserByEmail, createUser, getAllStaff };

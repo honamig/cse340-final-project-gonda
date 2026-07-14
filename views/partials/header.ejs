@@ -26,6 +26,9 @@
                 <a href="/account">My Account</a>
                 <% if (user.role === "employee" || user.role === "owner") { %>
                     <a href="/employee/dashboard">Dashboard</a>
+                <% if (user.role === "owner") { %>
+                    <a href="/owner/dashboard">Owner</a>
+                <% } %>
                 <% } %>
                 <form action="/logout" method="POST">
                     <button type="submit">Logout</button>
