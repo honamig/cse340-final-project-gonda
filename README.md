@@ -49,14 +49,10 @@ Password for all test accounts: `P@$$w0rd!`
 
 ## Known Limitations
 
-- Vehicle images use placeholder URLs (placehold.co) rather than uploaded photos.
 - There is no pagination on vehicle listing pages; all vehicles in a category
   are shown on a single page.
 - Employee and owner accounts cannot be edited or removed from the owner
   dashboard once created.
-- Code organization follows a routes/controllers/models split rather than a
-  `src/`-based convention. This could be revisited in a future iteration for
-  closer alignment with common Node.js project layouts.
 
 ## Live Deployment
 
