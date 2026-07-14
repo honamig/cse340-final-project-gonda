@@ -7,7 +7,7 @@ async function getFeaturedVehicles() {
        FROM dealership.vehicles v
        LEFT JOIN dealership.vehicle_images vi
          ON vi.vehicle_id = v.vehicle_id AND vi.is_primary = TRUE
-       ORDER BY v.created_at DESC
+       ORDER BY v.created_at DESC, v.vehicle_id ASC
        LIMIT 3`
     );
 
