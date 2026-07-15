@@ -53,6 +53,7 @@ Password for all test accounts: `P@$$w0rd!`
   are shown on a single page.
 - Employee and owner accounts cannot be edited or removed from the owner
   dashboard once created.
+- On render site, login is not working, even though it is working in local environment.
 
 ## Live Deployment
 
