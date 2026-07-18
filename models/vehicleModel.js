@@ -7,8 +7,7 @@ async function getFeaturedVehicles() {
        FROM dealership.vehicles v
        LEFT JOIN dealership.vehicle_images vi
          ON vi.vehicle_id = v.vehicle_id AND vi.is_primary = TRUE
-       ORDER BY v.created_at DESC, v.vehicle_id ASC
-       LIMIT 3`
+       ORDER BY v.created_at DESC, v.vehicle_id ASC`
     );
 
     return result.rows.map((row) => ({
@@ -195,6 +194,20 @@ async function deleteVehicle(vehicleId) {
   }
 }
 
+async function addVehicleImage(vehicleId, imageUrl) {
+  try {
+    await pool.query(
+      `INSERT INTO dealership.vehicle_images (vehicle_id, image_url, is_primary)
+       VALUES ($1, $2, TRUE)`,
+      [vehicleId, imageUrl]
+    );
+    return true;
+  } catch (error) {
+    console.error("addVehicleImage error:", error);
+    return false;
+  }
+}
+
 export {
   getFeaturedVehicles,
   getAllCategories,
@@ -204,5 +217,6 @@ export {
   getAllVehiclesAdmin,
   updateVehicle,
   createVehicle,
-  deleteVehicle
+  deleteVehicle,
+  addVehicleImage,
 };

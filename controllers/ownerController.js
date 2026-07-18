@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
-import { getAllVehiclesAdmin, createVehicle, deleteVehicle, getAllCategories } from "../models/vehicleModel.js";
-import { createCategory, deleteCategory } from "../models/categoryModel.js";
+import { getAllVehiclesAdmin, createVehicle, deleteVehicle, getAllCategories, addVehicleImage } from "../models/vehicleModel.js";import { createCategory, deleteCategory } from "../models/categoryModel.js";
 import { getAllStaff, createUser, getUserByEmail } from "../models/userModel.js";
 
 async function buildDashboard(req, res) {
@@ -46,7 +45,7 @@ async function buildAddVehicle(req, res) {
 }
 
 async function submitAddVehicle(req, res) {
-  const { categoryId, make, model, year, price, mileage, description } = req.body;
+  const { categoryId, make, model, year, price, mileage, description, imageUrl } = req.body;
 
   if (!make || !model || !year || !price) {
     req.flash("error", "Make, model, year, and price are required.");
@@ -58,6 +57,10 @@ async function submitAddVehicle(req, res) {
   if (!vehicle) {
     req.flash("error", "Something went wrong. Please try again.");
     return res.redirect("/owner/vehicles/add");
+  }
+
+  if (imageUrl && imageUrl.trim() !== "") {
+    await addVehicleImage(vehicle.vehicle_id, imageUrl.trim());
   }
 
   req.flash("success", "Vehicle added.");
